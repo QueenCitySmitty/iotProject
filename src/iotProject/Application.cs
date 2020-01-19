@@ -1,4 +1,4 @@
-namespace testapp
+namespace IotProject
 {
     using System.Device.Gpio;
     using System.Threading;
