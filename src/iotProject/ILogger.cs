@@ -1,4 +1,4 @@
-namespace testapp
+namespace IotProject
 {
     interface ILogger
     {

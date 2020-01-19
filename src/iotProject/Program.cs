@@ -1,10 +1,7 @@
-﻿using System;
-using System.Device.Gpio;
-using System.Threading;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace testapp
+﻿namespace IotProject
 {
+    using Microsoft.Extensions.DependencyInjection;
+
     class Program
     {
         static void Main(string[] args)
