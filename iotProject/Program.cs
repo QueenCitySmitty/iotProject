@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace testapp
 {
@@ -8,25 +9,22 @@ namespace testapp
     {
         static void Main(string[] args)
         {
-            int ledPin = 4;
-            GpioController controller = new GpioController();
-            controller.OpenPin(ledPin, PinMode.Output);
+            var services = new ServiceCollection();
+            ConfigureServices(services);
 
-            int lightTimeInMiliseconds = 5000;
-            int dimTimeInMiliseconds = 5000;
-
-            while(true)
+            using(ServiceProvider serviceProvider = services.BuildServiceProvider())
             {
-                Console.WriteLine ($"LED1 on for {lightTimeInMiliseconds}ms");
+                var app = serviceProvider.GetService<Application>();
 
-                controller.Write(ledPin, PinValue.Low);
-
-                Thread.Sleep(lightTimeInMiliseconds);
-
-                Console.WriteLine($"LED off for {dimTimeInMiliseconds}ms");
-                controller.Write(ledPin, PinValue.High);
-                Thread.Sleep(dimTimeInMiliseconds);
+                app.Run();
             }
+        }
+
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services
+                .AddTransient<Application>()
+                .AddSingleton<ILogger, ConsoleLogger>();
         }
     }
 }
